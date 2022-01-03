@@ -24,8 +24,8 @@ class TestMetaProcessMethods(unittest.TestCase):
         Setting up the environment
         """
         # mocking s3 connection start
-        self.mock_s3 = mock_s3()
-        self.mock_s3.start()
+        self.mocks3 = mock_s3()
+        self.mocks3.start()
         # Defining the class arguments
         self.s3_access_key = 'AWS_ACCESS_KEY_ID'
         self.s3_secret_key = 'AWS_SECRET_ACCESS_KEY'
@@ -50,7 +50,7 @@ class TestMetaProcessMethods(unittest.TestCase):
 
     def tearDown(self):
         # mocking s3 connection stop
-        self.mock_s3.stop()
+        self.mocks3.stop()
 
     def test_update_meta_file_no_meta_file(self):
         """
@@ -294,7 +294,7 @@ class TestMetaProcessMethods(unittest.TestCase):
         when there are no dates to be returned
         """
         # Expected results
-        min_date_exp = '3300-01-01'
+        min_date_exp = '2200-01-01'
         date_list_exp = []
         # Test init
         meta_key = 'meta.csv'

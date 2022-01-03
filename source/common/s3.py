@@ -25,8 +25,8 @@ class S3BucketConnector():
                                     ,aws_secret_access_key=os.environ[secret_key])
         # using convensions single _ means protected var, using __ means private var,
         # they shouldn't be touched
-        self._s3 = self.session.resource(service_name='s3', endpoint_url=endpoint_url)
-        self._bucket = self._s3.Bucket(bucket)
+        self.s3 = self.session.resource(service_name='s3', endpoint_url=endpoint_url)
+        self._bucket = self.s3.Bucket(bucket)
 
     def list_files_in_prefix(self, prefix: str):
         """
@@ -81,6 +81,6 @@ class S3BucketConnector():
         :out_buffer: StringIO | BytesIO that should be written
         :key: target key of the saved file
         """
-        self._loger.info('Writing file to %s/%s/%s', self.endpoint_url, self._bucket.name, key)
+        self._logger.info('Writing file to %s/%s/%s', self.endpoint_url, self._bucket.name, key)
         self._bucket.put_object(Body=out_buffer.getvalue(), Key=key)
         return True

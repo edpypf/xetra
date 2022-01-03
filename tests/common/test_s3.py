@@ -21,8 +21,8 @@ class TestS3BucketConnectorMethods(unittest.TestCase):
         Setting up the environment
         """
         # mocking s3 connection start
-        self.mock_s3 = mock_s3()
-        self.mock_s3.start()
+        self.mocks3 = mock_s3()
+        self.mocks3.start()
         # Defining the class arguments
         self.s3_access_key = 'AWS_ACCESS_KEY_ID'
         self.s3_secret_key = 'AWS_SECRET_ACCESS_KEY'
@@ -32,12 +32,12 @@ class TestS3BucketConnectorMethods(unittest.TestCase):
         os.environ[self.s3_access_key] = 'KEY1'
         os.environ[self.s3_secret_key] = 'KEY2'
         # Creating a bucket on the mocked s3
-        self._s3 = boto3.resource(service_name='s3', endpoint_url=self.s3_endpoint_url)
-        self._s3.create_bucket(Bucket=self.s3_bucket_name
+        self.s3 = boto3.resource(service_name='s3', endpoint_url=self.s3_endpoint_url)
+        self.s3.create_bucket(Bucket=self.s3_bucket_name
                              ,CreateBucketConfiguration={
                                 'LocationConstraint': 'us-west-2'
                             })
-        self.s3_bucket = self._s3.Bucket(self.s3_bucket_name)
+        self.s3_bucket = self.s3.Bucket(self.s3_bucket_name)
         # Creating a testing instance
         self.s3_bucket_conn = S3BucketConnector(self.s3_access_key,
                                                 self.s3_secret_key,
@@ -50,7 +50,7 @@ class TestS3BucketConnectorMethods(unittest.TestCase):
         Executing after unittests
         """
         # mocking s3 connection stop
-        self.mock_s3.stop()
+        self.mocks3.stop()
 
     def test_list_files_in_prefix_ok(self):
         """
